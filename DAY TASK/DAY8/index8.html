@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Validation</title>
+    <style>
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h2>Form Validation</h2>
+    <form id="myForm" onsubmit="return validateForm()">
+        <label for="phone">Phone number</label>
+        <input type="text" id="phone" name="phone" />
+        <div id="phoneError" class="error"></div><br><br>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" />
+        <div id="emailError" class="error"></div><br><br>
+
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" />
+        <div id="nameError" class="error"></div><br><br>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" />
+        <div id="passwordError" class="error"></div><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function validatePhone(phone) {
+            const regex = /^[0-9]{10}$/;
+            if (phone.trim() === "") {
+                return "Phone number can't be empty";
+            }
+            if (!regex.test(phone)) {
+                return "Phone number must be exactly 10 digits";
+            }
+            return "";
+        }
+
+        function validateName(name) {
+            const regex = /^[A-Za-z\s]+$/;
+            if (name.trim() === "") {
+                return "Name cannot be empty";
+            }
+            if (!regex.test(name)) {
+                return "Name can only contain letters and spaces";
+            }
+            return "";
+        }
+
+        function validateEmail(email) {
+            const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (email.trim() === "") {
+                return "Email cannot be empty";
+            }
+            if (!regex.test(email)) {
+                return "Invalid email format";
+            }
+            return "";
+        }
+
+        function validatePassword(password) {
+            const regex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (password.trim() === "") {
+                return "Password cannot be empty";
+            }
+            if (!regex.test(password)) {
+                return "Password must be at least 8 characters long, contain at least one uppercase letter and one digit";
+            }
+            return "";
+        }
+
+        function validateForm() {
+            const phone = document.getElementById("phone").value;
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const phoneError = validatePhone(phone);
+            const nameError = validateName(name);
+            const emailError = validateEmail(email);
+            const passwordError = validatePassword(password);
+
+            document.getElementById("phoneError").innerText = phoneError;
+            document.getElementById("nameError").innerText = nameError;
+            document.getElementById("emailError").innerText = emailError;
+            document.getElementById("passwordError").innerText = passwordError;
+
+            return phoneError === "" && nameError === "" && emailError === "" && passwordError === "";
+        }
+    </script>
+</body>
+</html>
